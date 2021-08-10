@@ -2,8 +2,6 @@
 
 namespace RigorTalks;
 
-class TemperatureNegativeException extends \Exception {}
-
 class Temperature
 {
     private int $measure;
