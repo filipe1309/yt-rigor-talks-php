@@ -21,7 +21,7 @@ class Temperature
     private function checkMeasureIsPositive(int $measure): void
     {
         if ($measure < 0) {
-            throw new TemperatureNegativeException('Measure should be positive');
+            throw TemperatureNegativeException::fromMeasure($measure);
         }
     }
 
