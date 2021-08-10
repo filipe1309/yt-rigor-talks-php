@@ -6,7 +6,7 @@ class Temperature
 {
     private int $measure;
 
-    public function __construct(int $measure)
+    private function __construct(int $measure)
     {
         $this->setMeasure($measure);
     }
