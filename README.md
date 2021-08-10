@@ -43,7 +43,7 @@ docker-compose up
 After up the container:
 
 ```sh
-docker-compose exec php ./vendor/bin/phpunit
+./bin/tests.sh
 ```
 
 ## License
