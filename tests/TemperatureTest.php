@@ -11,6 +11,18 @@ class TemperatureTest extends TestCase
     /**
      * @test
      */
+    public function tryToCreateValidTemperatureWithNamedConstructor()
+    {
+        $measure = 18;
+        $this->assertSame(
+            $measure,
+            (Temperature::take($measure))->measure()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function tryToCreateANonValidTemperature()
     {
         $this->expectException(TemperatureNegativeException::class);
