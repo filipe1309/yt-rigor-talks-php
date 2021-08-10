@@ -8,15 +8,22 @@ class Temperature
 
     public function __construct(int $measure)
     {
-        if ($measure >= 0) {
-            $this->measure = $measure;
-        } else {
-            throw new TemperatureNegativeException('Measure should be positive');
-        }
+        // Guard Clauses
+        $this->checkMeasureIsPositive($measure);
+
+        $this->measure = $measure;
+
     }
 
     public function measure(): int
     {
         return $this->measure;
+    }
+
+    private function checkMeasureIsPositive(int $measure): void
+    {
+        if ($measure < 0) {
+            throw new TemperatureNegativeException('Measure should be positive');
+        }
     }
 }
