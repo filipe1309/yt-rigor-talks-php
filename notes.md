@@ -4,3 +4,10 @@
 
 <!-- https://gitignore.io -->
 <!-- https://github.com/github/gitignore -->
+
+```sh
+composer init
+mkdir src
+composer dumpautoload
+composer require phpunit/phpunit --dev
+```
