@@ -11,3 +11,5 @@ mkdir src
 composer dumpautoload
 composer require phpunit/phpunit --dev
 ```
+
+## EP-1 Guard Clauses
