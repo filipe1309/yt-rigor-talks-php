@@ -39,6 +39,13 @@ class Temperature
 
     public function isSuperHot(): bool
     {
+        $threshold = $this->getThreshold();
+
+        return $this->measure() > $threshold;
+    }
+
+    private function getThreshold(): int
+    {
         // It coould be also
         // $global $conn;
         $conn = new PDO('sqlite:temp', null, null, [
@@ -51,8 +58,6 @@ class Temperature
             'SELECT hot_threshold FROM configuration_temperature'
         );
         $stmt->execute();
-        $threshold = $stmt->fetch();
-
-        return $this->measure() > $threshold;
+        return $stmt->fetch();
     }
 }
