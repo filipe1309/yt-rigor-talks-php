@@ -2,6 +2,8 @@
 
 namespace RigorTalks;
 
+use PDO;
+
 class Temperature
 {
     private int $measure;
@@ -33,5 +35,24 @@ class Temperature
     public function measure(): int
     {
         return $this->measure;
+    }
+
+    public function isSuperHot(): bool
+    {
+        // It coould be also
+        // $global $conn;
+        $conn = new PDO('sqlite:temp', null, null, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_PERSISTENT => true
+        ]);
+
+        $stmt = $conn->prepare(
+            'SELECT hot_threshold FROM configuration_temperature'
+        );
+        $stmt->execute();
+        $threshold = $stmt->fetch();
+
+        return $this->measure() > $threshold;
     }
 }
