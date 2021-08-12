@@ -5,9 +5,10 @@ namespace RigorTalks\Tests;
 use RigorTalks\Temperature;
 use RigorTalks\TemperatureNegativeException;
 use PHPUnit\Framework\TestCase;
+use RigorTalks\ColdThresholdSource;
 use RigorTalks\TemperatureTestClass;
 
-class TemperatureTest extends TestCase
+class TemperatureTest extends TestCase implements ColdThresholdSource
 {
     /**
      * @test
@@ -56,5 +57,18 @@ class TemperatureTest extends TestCase
     public function tryToCheckIfASuperHotTemperatureIsSuperHot()
     {
         $this->assertTrue(TemperatureTestClass::take(100)->isSuperHot());
+    }
+
+    /**
+     * @test
+     */
+    public function tryToCheckIfASuperColdTemperatureIsSuperCold()
+    {
+        $this->assertTrue(TemperatureTestClass::take(10)->isSuperCold($this));
+    }
+
+    public function getThreshold(): int
+    {
+        return 50;
     }
 }
