@@ -5,6 +5,7 @@ namespace RigorTalks\Tests;
 use RigorTalks\Temperature;
 use RigorTalks\TemperatureNegativeException;
 use PHPUnit\Framework\TestCase;
+use RigorTalks\TemperatureTestClass;
 
 class TemperatureTest extends TestCase
 {
@@ -39,5 +40,21 @@ class TemperatureTest extends TestCase
             $measure,
             (Temperature::take($measure))->measure()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function tryToCheckIfAColdTemperatureIsSuperHot()
+    {
+        $this->assertFalse(TemperatureTestClass::take(10)->isSuperHot());
+    }
+
+    /**
+     * @test
+     */
+    public function tryToCheckIfASuperHotTemperatureIsSuperHot()
+    {
+        $this->assertTrue(TemperatureTestClass::take(100)->isSuperHot());
     }
 }

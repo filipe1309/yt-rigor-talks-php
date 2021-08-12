@@ -44,7 +44,7 @@ class Temperature
         return $this->measure() > $threshold;
     }
 
-    private function getThreshold(): int
+    protected function getThreshold(): int
     {
         // It coould be also
         // $global $conn;
