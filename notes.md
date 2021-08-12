@@ -27,5 +27,7 @@ composer require phpunit/phpunit --dev
 ## EP-7 Test Class
 
 ## EP-8 Self-Shunt
-## EP-9
 
+## EP-9 Self-Shunt 2
+
+## EP-10 Self-Shunt 3
