@@ -2,9 +2,25 @@
 
 # DevOntheRun Deploy Script
 
+# Black        0;30     Dark Gray     1;30
+# Red          0;31     Light Red     1;31
+# Green        0;32     Light Green   1;32
+# Brown/Orange 0;33     Yellow        1;33
+# Blue         0;34     Light Blue    1;34
+# Purple       0;35     Light Purple  1;35
+# Cyan         0;36     Light Cyan    1;36
+# Light Gray   0;37     White         1;37
+
+BG_GREEN='\e[1;32m'
+NO_BG='\e[m'
+DARK_GRAY='\033[1;30m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+echo -e "${BG_GREEN}"
 echo "#############################################"
 echo "                   DEPLOY                   "
-echo "#############################################"
+echo -e "#############################################${NO_BG}"
 echo "# [Optional] param: --tag-msg \"TAG_MESSAGE_HERE\""
 echo "---------------------------------------------"
 
@@ -12,6 +28,7 @@ TAG_MSG=$2
 GIT_BRANCH=$(git branch --show-current)
 GIT_DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD' | cut -d':' -f2 | sed -e 's/^ *//g' -e 's/ *$//g')
 TAG_NAME=$GIT_BRANCH
+FAILED_MSG="ERROR"
 
 IFS='-' read -ra ADDR <<< "$GIT_BRANCH"
 CLASS_TYPE=${ADDR[0]}
@@ -56,7 +73,7 @@ if [ $# -eq 0 ]; then
         read -e tagmsg
         if [ ! -z "$tagmsg"  -a "$tagmsg" != " " ]; then
             TAG_MSG_SLUG=$(echo "$tagmsg" | iconv -t ascii//TRANSLIT | sed -r 's/[~\^]+//g' | sed -r 's/[^a-zA-Z0-9]+/-/g' | sed -r 's/^-+\|-+$//g' | tr A-Z a-z)
-            TAG_NAME="${TAG_NAME}-${TAG_MSG_SLUG}" 
+            TAG_NAME="${TAG_NAME}-${TAG_MSG_SLUG}"
             TAG_MSG="$tagMsgPrefix - $tagmsg"
         else
             echo "Tag message missing"
@@ -85,9 +102,9 @@ if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
     echo "---------------------------------------------"
     echo "Deploying..."
     git add notes.md && git commit -m "docs: update notes"
-    confirm "Checkout to \"$GIT_DEFAULT_BRANCH\" branch & Merge current branch ($GIT_BRANCH)? [Y/n]" && git checkout $GIT_DEFAULT_BRANCH && git pull && git merge $GIT_BRANCH
-    confirm "Deploy on \"$GIT_DEFAULT_BRANCH\" branch? [Y/n]" git push origin $GIT_DEFAULT_BRANCH && git push origin $GIT_DEFAULT_BRANCH --tags
-    echo "Deploy completed!"
+    confirm "Checkout to \"$GIT_DEFAULT_BRANCH\" branch & Merge current branch ($GIT_BRANCH)? [Y/n]" && { git checkout $GIT_DEFAULT_BRANCH  || { echo -e "\u274c $FAILED_MSG" ; exit 1; } } && { git pull  || { echo -e "\u274c $FAILED_MSG" ; exit 1; } } && { git merge $GIT_BRANCH  || { echo -e "\u274c $FAILED_MSG" ; exit 1; } }
+    confirm "Deploy on \"$GIT_DEFAULT_BRANCH\" branch? [Y/n]" && { git push origin $GIT_DEFAULT_BRANCH  || { echo -e "\u274c $FAILED_MSG" ; exit 1; } } && { git push origin $GIT_DEFAULT_BRANCH --tags  || { echo -e "\u274c $FAILED_MSG" ; exit 1; } }
+    echo -e "                   \xE2\x9C\x94 DEPLOY COMPLETED"
     confirm "Go to next class/episode? ($GIT_BRANCH_NEXT_CLASS_LW) [Y/n]" && git checkout -b $GIT_BRANCH_NEXT_CLASS_LW
     echo "## ${GIT_BRANCH_NEXT_CLASS^^}" >> notes.md
     echo "" >> notes.md
