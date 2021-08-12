@@ -60,4 +60,11 @@ class Temperature
         $stmt->execute();
         return $stmt->fetch();
     }
+
+    public function isSuperCold(ColdThresholdSource $coldThresholdSource): bool
+    {
+        $threshold = $coldThresholdSource->getThreshold();
+
+        return $this->measure() < $threshold;
+    }
 }
