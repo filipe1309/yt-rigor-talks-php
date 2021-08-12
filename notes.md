@@ -13,15 +13,17 @@ composer require phpunit/phpunit --dev
 ```
 
 ## EP-1 Guard Clauses
-## EP-2
 
-## EP-3
+## EP-2 Self-Encapsulation
 
-## EP-4
+## EP-3 Named constructor 1
 
-## EP-5
+## EP-4 Named constructor 2
 
-## EP-6
+## EP-5 Named constructor 3
 
-## EP-7
+## EP-6 Named constructor 4
 
+## EP-7 Test Class
+
+## EP-8 Self-Shunt
