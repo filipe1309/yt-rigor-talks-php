@@ -73,8 +73,8 @@ class Temperature
         return new static($station->sensor()->temperature()->measure());
     }
 
-    public function add(self $anotherTemperature)
+    public function add(self $anotherTemperature): self
     {
-        $this->setMeasure($this->measure() + $anotherTemperature->measure());
+        return new self($this->measure() + $anotherTemperature->measure());
     }
 }

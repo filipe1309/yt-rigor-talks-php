@@ -124,11 +124,10 @@ class TemperatureTest extends TestCase implements ColdThresholdSource
         $a = Temperature::take(50);
         $b = Temperature::take(50);
 
-        $a->add($b);
+        $c = $a->add($b);
 
-        $this->assertEquals(
-            100,
-            $a->measure()
-        );
+        $this->assertEquals(100, $c->measure());
+        $this->assertNotSame($c, $a);
+        $this->assertNotSame($c, $b);
     }
 }
