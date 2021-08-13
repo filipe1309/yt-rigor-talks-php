@@ -115,4 +115,20 @@ class TemperatureTest extends TestCase implements ColdThresholdSource
     {
         return 50;
     }
+
+    /**
+     * @test
+     */
+    public function tryToSumTwoMeasures()
+    {
+        $a = Temperature::take(50);
+        $b = Temperature::take(50);
+
+        $a->add($b);
+
+        $this->assertEquals(
+            100,
+            $a->measure()
+        );
+    }
 }
