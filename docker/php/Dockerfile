@@ -6,18 +6,18 @@ WORKDIR ${WORKDIR}
 
 # Updates and installs system dependencies
 RUN apk add --update --no-cache \
-    bash \
-    tzdata \
-    libxml2-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    postgresql-dev \
-    libzip-dev \
-    libxslt-dev \
-    oniguruma-dev \
-    $PHPIZE_DEPS && \
-    rm -rf /var/cache/apk/*
+  bash \
+  tzdata \
+  libxml2-dev \
+  libpng-dev \
+  libjpeg-turbo-dev \
+  freetype-dev \
+  postgresql-dev \
+  libzip-dev \
+  libxslt-dev \
+  oniguruma-dev \
+  $PHPIZE_DEPS && \
+  rm -rf /var/cache/apk/*
 
 # Timezone
 ENV TZ=America/Sao_Paulo
@@ -48,12 +48,12 @@ RUN docker-php-ext-install \
 
 # Install xdebug
 RUN pecl install xdebug \
- && docker-php-ext-enable xdebug \
- && echo 'xdebug.start_with_request=no' >> ${PHP_INI_DIR}/conf.d/xdebug.ini \
- && echo 'xdebug.mode=debug' >> ${PHP_INI_DIR}/conf.d/xdebug.ini \
- && echo 'xdebug.client_host=host.docker.internal' >> ${PHP_INI_DIR}/conf.d/xdebug.ini \
- && echo 'xdebug.client_port=9000' >>  ${PHP_INI_DIR}/conf.d/xdebug.ini \
- && echo 'xdebug.remote_cookie_expire_time=36000' >>  ${PHP_INI_DIR}/conf.d/xdebug.ini
+  && docker-php-ext-enable xdebug \
+  && echo 'xdebug.start_with_request=no' >> ${PHP_INI_DIR}/conf.d/xdebug.ini \
+  && echo 'xdebug.mode=debug,coverage' >> ${PHP_INI_DIR}/conf.d/xdebug.ini \
+  && echo 'xdebug.client_host=host.docker.internal' >> ${PHP_INI_DIR}/conf.d/xdebug.ini \
+  && echo 'xdebug.client_port=9000' >>  ${PHP_INI_DIR}/conf.d/xdebug.ini \
+  && echo 'xdebug.remote_cookie_expire_time=36000' >>  ${PHP_INI_DIR}/conf.d/xdebug.ini
 
 # Install extension redis
 RUN pecl -v install redis
@@ -70,12 +70,14 @@ COPY ./php.ini ${PHP_INI_DIR}/conf.d/99-php.ini
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy files to container
-#COPY . ${WORKDIR}
+COPY . ${WORKDIR}
 
 # Installs composer dependencies
-#RUN cd ${WORKDIR}/applcation && composer install -o
+#RUN cd ${WORKDIR} && composer install -o
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 
-CMD ["php-fpm"]
+COPY entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["entrypoint.sh"]
