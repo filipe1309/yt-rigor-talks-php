@@ -1,0 +1,99 @@
+Escaped mutants:
+================
+
+1) /home/app/src/Temperature.php:68    [M] LessThan
+
+--- Original
++++ New
+@@ @@
+     public function isSuperCold(ColdThresholdSource $coldThresholdSource) : bool
+     {
+         $threshold = $coldThresholdSource->getThreshold();
+-        return $this->measure() < $threshold;
++        return $this->measure() <= $threshold;
+     }
+     public static function fromStation($station) : self
+     {
+
+
+2) /home/app/src/TemperatureTestClass.php:9    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+ {
+     protected function getThreshold() : int
+     {
+-        return 10;
++        return 11;
+     }
+ }
+
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================
+
+Not Covered mutants:
+====================
+
+1) /home/app/src/Temperature.php:47    [M] ProtectedVisibility
+
+--- Original
++++ New
+@@ @@
+         $threshold = $this->getThreshold();
+         return $this->measure() > $threshold;
+     }
+-    protected function getThreshold() : int
++    private function getThreshold() : int
+     {
+         // It coould be also
+         // $global $conn;
+
+
+2) /home/app/src/Temperature.php:51    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     {
+         // It coould be also
+         // $global $conn;
+-        $conn = new PDO('sqlite:temp', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_PERSISTENT => true]);
++        $conn = new PDO('sqlite:temp', null, null, [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_PERSISTENT => true]);
+         $stmt = $conn->prepare('SELECT hot_threshold FROM configuration_temperature');
+         $stmt->execute();
+         return $stmt->fetch();
+
+
+3) /home/app/src/Temperature.php:54    [M] TrueValue
+
+--- Original
++++ New
+@@ @@
+     {
+         // It coould be also
+         // $global $conn;
+-        $conn = new PDO('sqlite:temp', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_PERSISTENT => true]);
++        $conn = new PDO('sqlite:temp', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_PERSISTENT => false]);
+         $stmt = $conn->prepare('SELECT hot_threshold FROM configuration_temperature');
+         $stmt->execute();
+         return $stmt->fetch();
+
+
+4) /home/app/src/Temperature.php:60    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         // $global $conn;
+         $conn = new PDO('sqlite:temp', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_PERSISTENT => true]);
+         $stmt = $conn->prepare('SELECT hot_threshold FROM configuration_temperature');
+-        $stmt->execute();
++        
+         return $stmt->fetch();
+     }
+     public function isSuperCold(ColdThresholdSource $coldThresholdSource) : bool

@@ -12,6 +12,7 @@ This project was developed following Youtube's [Rigor Talks](https://www.youtube
 ## :computer: Technologies
 
 - [PHP](https://www.php.net/)
+- [Infection - PHP Mutation Testing Framework](https://infection.github.io/)
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 
