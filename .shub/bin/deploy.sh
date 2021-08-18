@@ -2,7 +2,8 @@
 
 # DevOntheRun Deploy Script
 
-clear
+.shub/bin/shub-logo.sh
+
 
 # Black        0;30     Dark Gray     1;30
 # Red          0;31     Light Red     1;31
@@ -132,6 +133,11 @@ echo ""
 echo "🏁 Starting deploy process ..."
 echo "✔ Auto commiting notes ..."
 git add notes.md && git commit -m "docs: update notes"
+
+if ( ! test -f ".gitignore" ) || ( test -f ".gitignore" && ! grep -q .shub ".gitignore" ); then
+    echo "✔ Auto commiting shub files ..."
+    git add .shub && git commit -m "chore: update shub files"  
+fi
 
 echo "---------------------------------------------"
 confirm "Checkout to \"$GIT_DEFAULT_BRANCH\" branch & Merge current branch ($GIT_BRANCH)? [Y/n]" && { git checkout $GIT_DEFAULT_BRANCH  || { echo -e "\u274c $FAILED_MSG" ; exit 1; } } && { git pull  || { echo -e "\u274c $FAILED_MSG" ; exit 1; } } && { git merge $GIT_BRANCH  || { echo -e "\u274c $FAILED_MSG" ; exit 1; } }
