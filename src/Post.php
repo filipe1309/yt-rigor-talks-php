@@ -15,13 +15,22 @@ class Post
     ) {
     }
 
-    public function getStatus(): string
+    private function getStatus(): string
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    private function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    public function publish(): void
+    {
+        if ($this->getStatus() === Post::STATUS_PUBLISHED) {
+            return;
+        }
+
+        $this->setStatus(Post::STATUS_PUBLISHED);
     }
 }

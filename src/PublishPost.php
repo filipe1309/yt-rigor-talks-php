@@ -12,8 +12,6 @@ class PublishPost
     public function handle($postId): void
     {
         $post = $this->postRepository->ofIdOrFail($postId);
-        if ($post->getStatus() !== Post::STATUS_PUBLISHED) {
-            $post->setStatus(Post::STATUS_PUBLISHED);
-        }
+        $post->publish();
     }
 }
