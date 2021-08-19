@@ -10,13 +10,17 @@ class Publish
     ) {
     }
 
-    public function execute($userId, $postId): void
+    public function execute(PublishCommand $command): void
     {
-        $user = $this->userRepository->ofIdOrFail($userId);
-        $post = $this->postRepository->ofIdOrFail($postId);
+        $user = $this->userRepository->ofIdOrFail($command->userId());
+        $post = $this->postRepository->ofIdOrFail($command->postId());
+
         $user->publish($post);
     }
 }
 
+// $applicationService = new Publish($userRepository, $postRepository);
+// $applicationService->execute($userId, $postId);
+
 $applicationService = new Publish($userRepository, $postRepository);
-$applicationService->execute($userId, $postId);
+$applicationService->execute(new PublishCommand($userId, $postId));
