@@ -22,5 +22,8 @@ class Publish
 // $applicationService = new Publish($userRepository, $postRepository);
 // $applicationService->execute($userId, $postId);
 
-$applicationService = new Publish($userRepository, $postRepository);
+// $applicationService = new Publish($userRepository, $postRepository);
+// $applicationService->execute(new PublishCommand($userId, $postId));
+
+$applicationService = new LoggerDecorator(new Publish($userRepository, $postRepository), new Monolog());
 $applicationService->execute(new PublishCommand($userId, $postId));
