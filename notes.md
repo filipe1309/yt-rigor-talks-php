@@ -45,3 +45,5 @@ https://infection.github.io/
 ## EP-21
 
 https://tactician.thephpleague.com/
+## EP-22
+
