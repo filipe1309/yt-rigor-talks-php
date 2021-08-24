@@ -6,7 +6,8 @@ class PublishHandler
 {
     public function __construct(
         private Object $userRepository,
-        private Object $postRepository
+        private Object $postRepository,
+        private Object $eventDispatcher,
     ) {
     }
 
@@ -17,10 +18,12 @@ class PublishHandler
 
         $post->publish($user);
 
+        $this->eventDispatcher->notify(new PostWasPublished($user->id(), $post->id()));
+
         /**
          * More tasks
          * - Send emails to author
-         * - Ann new post to ElasticSearch, so it can be searched
+         * - Add new post to ElasticSearch, so it can be searched
          */
 
         return $post;
